@@ -1,61 +1,8 @@
 import bpy
-from bpy.types import (Panel,
-                       Operator,
-                       AddonPreferences,
-                       PropertyGroup,
-                       Menu,
-                       UIList,
-                       )
-
-#from bpy.props import (
-#    StringProperty,
-#    IntProperty,
-#    EnumProperty,
-#    CollectionProperty,
-#)
 
 
-class TweenMachinePanel(bpy.types.Panel):
-    bl_label = "TweenMachine"
-    bl_category = "AnimBlend"
-    bl_space_type = 'VIEW_3D'
-    bl_region_type = 'TOOLS'
-    bl_idname = "TM_painel"
-    bl_options = {'DEFAULT_CLOSED'}
-
-    def draw(self, context):
-        layout = self.layout
-        col = layout.column(align=True)
-        row = col.row()
-
-        rd = context.scene.render
-        view = context.space_data
-        scene = context.scene
-        ob = context.object
-        space = context.space_data
-        toolsettings = context.tool_settings
-        screen = context.screen
-        userpref = context.user_preferences
-        edit = userpref.edit 
-        interpolation = context.user_preferences.edit.keyframe_new_interpolation_type
-        
-        col = layout.column(align=True)
-        row = layout.row(align=True)
-        row.operator("pose.breakdown0", text="0%", icon="REW")
-        row.operator("pose.breakdown10", text="10%", icon="REW")
-        row.operator("pose.breakdown33", text="33%", icon="REW")
-        row = layout.row(align=True)
-        row.operator("pose.breakdown50", text="50%", icon="PAUSE")
-        row = layout.row(align=True)
-        row.operator("pose.breakdown66", text="66%", icon="FF")
-        row.operator("pose.breakdown90", text="90%", icon="FF")
-        row.operator("pose.breakdown100", text="100%", icon="FF")
-        row = layout.box()
-        row.label("TweenMachine Variable")
-        row.label("use SHIFT + E")
-
-class ValBreakdown_0(bpy.types.Operator):
-    bl_idname = "pose.breakdown0"
+class AB_OT_ValBreakdown_0(bpy.types.Operator):
+    bl_idname = "ab.breakdown0"
     bl_label = "Val0"
 
     def execute(self, context):
@@ -82,8 +29,8 @@ class ValBreakdown_0(bpy.types.Operator):
         return {"FINISHED"}
 
 
-class ValBreakdown_10(bpy.types.Operator):
-    bl_idname = "pose.breakdown10"
+class AB_OT_ValBreakdown_10(bpy.types.Operator):
+    bl_idname = "ab.breakdown10"
     bl_label = "Val10"
 
     def execute(self, context):
@@ -111,8 +58,8 @@ class ValBreakdown_10(bpy.types.Operator):
         return {"FINISHED"}
 
 
-class ValBreakdown_33(bpy.types.Operator):
-    bl_idname = "pose.breakdown33"
+class AB_OT_ValBreakdown_33(bpy.types.Operator):
+    bl_idname = "ab.breakdown33"
     bl_label = "Val0"
 
     def execute(self, context):
@@ -139,8 +86,8 @@ class ValBreakdown_33(bpy.types.Operator):
         return {"FINISHED"}
 
 
-class ValBreakdown_50(bpy.types.Operator):
-    bl_idname = "pose.breakdown50"
+class AB_OT_ValBreakdown_50(bpy.types.Operator):
+    bl_idname = "ab.breakdown50"
     bl_label = "Val50"
 
     def execute(self, context):
@@ -167,7 +114,7 @@ class ValBreakdown_50(bpy.types.Operator):
         return {"FINISHED"}
 
 
-class ValBreakdown_66(bpy.types.Operator):
+class AB_OT_ValBreakdown_ab(bpy.types.Operator):
     bl_idname = "pose.breakdown66"
     bl_label = "Val66"
 
@@ -195,8 +142,8 @@ class ValBreakdown_66(bpy.types.Operator):
         return {"FINISHED"}
 
 
-class ValBreakdown_90(bpy.types.Operator):
-    bl_idname = "pose.breakdown90"
+class AB_OT_ValBreakdown_90(bpy.types.Operator):
+    bl_idname = "ab.breakdown90"
     bl_label = "Val90"
 
     def execute(self, context):
@@ -223,8 +170,8 @@ class ValBreakdown_90(bpy.types.Operator):
         return {"FINISHED"}
 
 
-class ValBreakdown_100(bpy.types.Operator):
-    bl_idname = "pose.breakdown100"
+class AB_OT_ValBreakdown_100(bpy.types.Operator):
+    bl_idname = "ab.breakdown100"
     bl_label = "Val100"
 
     def execute(self, context):
@@ -249,8 +196,7 @@ class ValBreakdown_100(bpy.types.Operator):
         bpy.context.scene.tool_settings.use_keyframe_insert_auto = False
 
         return {"FINISHED"}
-
-
+'''
 def register():
     bpy.utils.register_class(ValBreakdown_0)
     bpy.utils.register_class(ValBreakdown_10)
@@ -275,4 +221,4 @@ def unregister():
 
 if __name__ == "__main__":
     register()
-
+'''
