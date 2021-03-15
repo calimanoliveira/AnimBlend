@@ -143,11 +143,11 @@ class AB_PT_animtools_GE(bpy.types.Panel):
         layout = self.layout
         scene = context.scene
         my_Properties = scene.my_properties
-        layout.operator("ab.curveLocY" , text="LocY")
+        #layout.operator("ab.curve_LocY" , text="LocY")
         # layout.operator("render.opengl", text="Still", icon='RENDER_STILL')
         #        layout.operator("object.animtools", text="Loc Y")
         #        layout.operator("animtools.mover_objeto",text="Move")
         #        layout.operator("animblend.translate_wrapper",text="Move")
 
-        layout.prop(my_Properties , "LocY")
+        layout.prop(my_Properties, "ab.curve_LocY" , text="LocY")
 
