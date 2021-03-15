@@ -21,7 +21,7 @@ Created by Edgard Caliman and Team
 bl_info = {
     "name": "AnimBlend",
     "description": "Tools of Animators",
-    "author": "Edgard Caliman",
+    "author": "Edgard Caliman and Ares Deveaux (AnimAide Graph Editor Tools)",
     "version": (0, 0, 2),
     "blender": (2, 91, 0),
     "location": "View3D",
@@ -29,16 +29,48 @@ bl_info = {
     "wiki_url": "",
     "category": "Animation"}
 
-import bpy
+import bpy,bgl,blf
+from bpy.utils import register_class, unregister_class
+from .ui.panels import *
+from .operators.ops_tweenmachine import *
+classes = (
+    AB_PT_AnimBlend,
+    AB_PT_TweenMachine,
+    AB_OT_ValBreakdown_0,
+    AB_OT_ValBreakdown_10,
+    AB_OT_ValBreakdown_33,
+    AB_OT_ValBreakdown_50,
+    AB_OT_ValBreakdown_66,
+    AB_OT_ValBreakdown_90,
+    AB_OT_ValBreakdown_100,
+    AB_PT_PlayBlast
+)
+
+def register():
+    for cls in classes:
+        register_class(cls)
+#    register_all()
+
+def unregister():
+    for cls in reversed(classes):
+        unregister_class(cls)
+#    unregister_all()
+
+"""
+#from . import auto_load
+
+#auto_load.init()
+
+#import bpy
 
 # load and reload submodules
 ##################################
 
 import importlib
-from . import developer_utils
-
-importlib.reload(developer_utils)
-modules = developer_utils.setup_addon_modules(__path__, __name__, "bpy" in locals())
+#from . import developer_utils
+#from animblend.ui.AnimTools import
+#importlib.reload(developer_utils)
+#modules = developer_utils.setup_addon_modules(__path__, __name__, "bpy" in locals())
 
 # register
 ##################################
@@ -47,18 +79,33 @@ import traceback
 
 
 def register():
+    #auto_load.register()
+
+#    from bpy.types import WindowManager as wm, Scene as scn
+#    from bpy.props import PointerProperty
+    from .ui.panels import register as register_ui
+    #from .ui.panels import register
+    from bpy.utils import register_class
     try:
         bpy.utils.register_module(__name__)
     except:
         traceback.print_exc()
 
-    print("Registered {} with {} modules".format(bl_info["name"], len(modules)))
-
+    #print("Registered {} with {} modules".format(bl_info["name"], len(modules)))
+    register_ui(register_class)
 
 def unregister():
+    from .ui.panels import unregister as unregister_ui
+    #from .ui.panels import unregister
+#    from bpy.utils import unregister_class
     try:
         bpy.utils.unregister_module(__name__)
     except:
         traceback.print_exc()
+#    from bpy.types import WindowManager as wm, Scene as scn
 
-    print("Unregistered {}".format(bl_info["name"]))
+    #print("Unregistered {}".format(bl_info["name"]))
+    unregister_ui(unregister_class)
+#    auto_load.unregister()
+
+"""

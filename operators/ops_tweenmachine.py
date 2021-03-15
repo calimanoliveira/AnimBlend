@@ -114,8 +114,8 @@ class AB_OT_ValBreakdown_50(bpy.types.Operator):
         return {"FINISHED"}
 
 
-class AB_OT_ValBreakdown_ab(bpy.types.Operator):
-    bl_idname = "pose.breakdown66"
+class AB_OT_ValBreakdown_66(bpy.types.Operator):
+    bl_idname = "ab.breakdown66"
     bl_label = "Val66"
 
     def execute(self, context):
@@ -196,29 +196,3 @@ class AB_OT_ValBreakdown_100(bpy.types.Operator):
         bpy.context.scene.tool_settings.use_keyframe_insert_auto = False
 
         return {"FINISHED"}
-'''
-def register():
-    bpy.utils.register_class(ValBreakdown_0)
-    bpy.utils.register_class(ValBreakdown_10)
-    bpy.utils.register_class(ValBreakdown_33)
-    bpy.utils.register_class(ValBreakdown_50)
-    bpy.utils.register_class(ValBreakdown_66)
-    bpy.utils.register_class(ValBreakdown_90)
-    bpy.utils.register_class(ValBreakdown_100)
-
-    bpy.utils.register_module(__name__)
-
-def unregister():
-    bpy.utils.unregister_class(ValBreakdown_0)
-    bpy.utils.unregister_class(ValBreakdown_10)
-    bpy.utils.unregister_class(ValBreakdown_33)
-    bpy.utils.unregister_class(ValBreakdown_50)
-    bpy.utils.unregister_class(ValBreakdown_66)
-    bpy.utils.unregister_class(ValBreakdown_90)
-    bpy.utils.unregister_class(ValBreakdown_100)
-
-    bpy.utils.unregister_module(__name__)
-
-if __name__ == "__main__":
-    register()
-'''

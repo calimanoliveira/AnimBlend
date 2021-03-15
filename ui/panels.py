@@ -1,12 +1,13 @@
 import bpy
 from bpy.types import Panel, UILayout
+from ..operators.ops_tweenmachine import *
 
-class AB_PT_Anim_Blend(Panel):
+class AB_PT_AnimBlend(Panel):
     bl_space_type = "VIEW_3D"
-    bl_region_type = "TOOLS"
-    bl_category = "ABTools"
+    bl_region_type = "UI"
+    bl_category = "AnimBlend"
 
-    bl_idname = "AB_PT_anim_blend"
+    bl_idname = "AB.animblend"
     bl_label = "AnimBlend UI"
 
 #    @classmethod
@@ -25,20 +26,17 @@ class AB_PT_Anim_Blend(Panel):
         space = context.space_data
         toolsettings = context.tool_settings
         screen = context.screen
-        userpref = context.user_preferences
-        edit = userpref.edit
-        interpolation = context.user_preferences.edit.keyframe_new_interpolation_type
 
         col = layout.column(align=True)
         row = layout.row(align=True)
 
 
-class AB_PT_Tween_Machine(Panel):
+class AB_PT_TweenMachine(Panel):
     bl_label = "TweenMachine"
-    bl_category = "ABTools"
+    bl_category = "AnimBlend"
     bl_space_type = 'VIEW_3D'
-    bl_region_type = 'TOOLS'
-    bl_idname = "AB_PT_tween_machine"
+    bl_region_type = 'UI'
+    bl_idname = "AB.tweenmachine"
     bl_options = {'DEFAULT_CLOSED'}
 
     def draw(self, context):
@@ -53,37 +51,82 @@ class AB_PT_Tween_Machine(Panel):
         space = context.space_data
         toolsettings = context.tool_settings
         screen = context.screen
-        userpref = context.user_preferences
-        edit = userpref.edit
-        interpolation = context.user_preferences.edit.keyframe_new_interpolation_type
-"""
+
         col = layout.column(align=True)
         row = layout.row(align=True)
-        row.operator("pose.breakdown0", text="0%", icon="REW")
-        row.operator("pose.breakdown10", text="10%", icon="REW")
-        row.operator("pose.breakdown33", text="33%", icon="REW")
+        row.operator("ab.breakdown0", text="0%", icon="REW")
+        row.operator("ab.breakdown10", text="10%", icon="REW")
+        row.operator("ab.breakdown33", text="33%", icon="REW")
         row = layout.row(align=True)
-        row.operator("pose.breakdown50", text="50%", icon="PAUSE")
+        row.operator("ab.breakdown50", text="50%", icon="PAUSE")
         row = layout.row(align=True)
-        row.operator("pose.breakdown66", text="66%", icon="FF")
-        row.operator("pose.breakdown90", text="90%", icon="FF")
-        row.operator("pose.breakdown100", text="100%", icon="FF")
+        row.operator("ab.breakdown66", text="66%", icon="FF")
+        row.operator("ab.breakdown90", text="90%", icon="FF")
+        row.operator("ab.breakdown100", text="100%", icon="FF")
         row = layout.box()
-        row.label("TweenMachine Variable")
-        row.label("use SHIFT + E")
-"""
+        row.label(text="TweenMachine Variable")
+        row.label(text="use SHIFT + E")
 
-classes = (
-    AB_PT_Anim_Blend,
-    AB_PT_Tween_Machine
-)
 
-def register(reg):
-    for cls in classes:
-        bpy.utils.register_class(cls)
-        #reg(cls)
+class AB_PT_PlayBlast(bpy.types.Panel):
+    bl_label = "Playblast"
+    bl_category = "AnimBlend"
+    bl_space_type = 'VIEW_3D'
+    bl_region_type = 'UI'
+    bl_idname = "AB.playblast"
+    bl_options = {'DEFAULT_CLOSED'}
 
-def unregister(unreg):
-    for cls in reversed(classes):
-        bpy.utils.unregister_class(cls)
-        #unreg(cls)
+    def draw(self, context):
+
+        layout = self.layout
+
+        col = layout.column(align=True)
+
+        rd = context.scene.render
+        # am = context.active_object.data
+        view = context.space_data
+        scene = context.scene
+        ob = context.object
+        space = context.space_data
+        toolsettings = context.tool_settings
+        screen = context.screen
+        userpref = context.preferences
+        edit = userpref.edit
+        #        arm = context.object.data
+        #        ad = context.active_object.animation_data
+        interpolation = context.preferences.edit.keyframe_new_interpolation_type
+
+        image_settings = rd.image_settings
+        file_format = image_settings.file_format
+
+        col = layout.column(align=True)
+        col.label(text="Playblast:")
+
+        row = layout.row(align=True)
+        row.operator("render.opengl", text="Still", icon='RENDER_STILL')
+        row.operator("render.opengl", text="Animation", icon='RENDER_ANIMATION').animation = True
+        row.operator("render.play_rendered_anim", text="Play", icon='PLAY')
+        row = layout.row()
+
+        layout.template_image_settings(image_settings, color_management=False)
+        layout.prop(rd.ffmpeg, "format")
+
+        row = layout.row(align=True)
+        row.prop(scene, "use_preview_range", text="", toggle=True)
+        if not scene.use_preview_range:
+            row.prop(scene, "frame_start", text="Start")
+            row.prop(scene, "frame_end", text="End")
+        else:
+            row.prop(scene, "frame_preview_start", text="Start")
+            row.prop(scene, "frame_preview_end", text="End")
+
+        layout.prop(rd, "filepath", text="")
+        #        layout.template_image_settings(image_settings, color_management=False)
+
+        col = layout.column(align=True)
+        col.prop(edit, "keyframe_new_interpolation_type", text='Keys')
+        col.prop(edit, "keyframe_new_handle_type", text="Handles")
+
+        row = layout.row()
+        row.prop(bpy.context.space_data.overlay, "show_overlays", text="Only Render View")
+
