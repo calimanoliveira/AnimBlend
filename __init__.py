@@ -29,12 +29,26 @@ bl_info = {
     "wiki_url": "",
     "category": "Animation"}
 
-import bpy,bgl,blf
+#import bpy,bgl,blf
 from bpy.utils import register_class, unregister_class
 from .ui.panels import *
 from .operators.ops_tweenmachine import *
+
+from bpy.props import (StringProperty , BoolProperty , IntProperty , FloatProperty , EnumProperty , PointerProperty , )
+
+
+class MyProperties(bpy.types.PropertyGroup):
+    LocY = BoolProperty(
+        name="LocY" ,
+        description="Property is Loc in Y",
+        default=True
+    )
+
+
+addon_keymap = []
+
+
 classes = (
-    AB_PT_AnimBlend,
     AB_PT_TweenMachine,
     AB_OT_ValBreakdown_0,
     AB_OT_ValBreakdown_10,
@@ -43,18 +57,43 @@ classes = (
     AB_OT_ValBreakdown_66,
     AB_OT_ValBreakdown_90,
     AB_OT_ValBreakdown_100,
-    AB_PT_PlayBlast
+    AB_PT_PlayBlast,
+    AB_PT_FrameRange,
+    AB_PT_animtools_GE
 )
 
 def register():
     for cls in classes:
         register_class(cls)
+
+    bpy.utils.register_class(MyProperties)
+    bpy.types.Scene.my_properties = bpy.props.CollectionProperty(type=MyProperties)
+
+    keymap_config = bpy.context.window_manager.keyconfigs.addon
+    if keymap_config:
+        km = keymap_config.keymaps.new(name="Graph Editor" , space_type="GRAPH_EDITOR")
+        kmi = km.keymap_items.new("animblend.translate_wrapper" , "G" , "PRESS")
+        addon_keymap.append((km , kmi))
+
+    #bpy.utils.register_module(__name__)
+
+
 #    register_all()
 
 def unregister():
     for cls in reversed(classes):
         unregister_class(cls)
 #    unregister_all()
+    del bpy.types.Scene.my_properties
+
+    bpy.utils.unregister_class(MyProperties)
+
+    bpy.utils.unregister_module(__name__)
+    del bpy.types.Scene.my_properties
+
+    for km , kmi in addon_keymap:
+        km.keymap_items.remove(kmi)
+    addon_keymap.clear()
 
 """
 #from . import auto_load

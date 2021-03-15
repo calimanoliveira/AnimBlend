@@ -2,35 +2,6 @@ import bpy
 from bpy.types import Panel, UILayout
 from ..operators.ops_tweenmachine import *
 
-class AB_PT_AnimBlend(Panel):
-    bl_space_type = "VIEW_3D"
-    bl_region_type = "UI"
-    bl_category = "AnimBlend"
-
-    bl_idname = "AB.animblend"
-    bl_label = "AnimBlend UI"
-
-#    @classmethod
-#    def poll(cls, context):
-#        return
-
-    def draw(self, context):
-        layout = self.layout
-        col = layout.column(align=True)
-        row = col.row()
-
-        rd = context.scene.render
-        view = context.space_data
-        scene = context.scene
-        ob = context.object
-        space = context.space_data
-        toolsettings = context.tool_settings
-        screen = context.screen
-
-        col = layout.column(align=True)
-        row = layout.row(align=True)
-
-
 class AB_PT_TweenMachine(Panel):
     bl_label = "TweenMachine"
     bl_category = "AnimBlend"
@@ -129,4 +100,54 @@ class AB_PT_PlayBlast(bpy.types.Panel):
 
         row = layout.row()
         row.prop(bpy.context.space_data.overlay, "show_overlays", text="Only Render View")
+
+class AB_PT_FrameRange(Panel):
+    bl_space_type = "VIEW_3D"
+    bl_region_type = "UI"
+    bl_category = "AnimBlend"
+
+    bl_idname = "AB.animblend"
+    bl_label = "AnimBlend UI"
+
+#    @classmethod
+#    def poll(cls, context):
+#        return
+
+    def draw(self, context):
+        layout = self.layout
+        col = layout.column(align=True)
+        row = col.row()
+
+        rd = context.scene.render
+        view = context.space_data
+        scene = context.scene
+        ob = context.object
+        space = context.space_data
+        toolsettings = context.tool_settings
+        screen = context.screen
+
+        col = layout.column(align=True)
+        row = layout.row(align=True)
+
+
+class AB_PT_animtools_GE(bpy.types.Panel):
+    bl_idname = 'ab.animtools_GE_Panel'
+    bl_label = "Graph Editor Panel"
+    bl_space_type = "GRAPH_EDITOR"
+    bl_region_type = "UI"
+    bl_category = "Animation"
+
+    # bl_options = {'REGISTER'}
+
+    def draw(self , context):
+        layout = self.layout
+        scene = context.scene
+        my_Properties = scene.my_properties
+        layout.operator("ab.curveLocY" , text="LocY")
+        # layout.operator("render.opengl", text="Still", icon='RENDER_STILL')
+        #        layout.operator("object.animtools", text="Loc Y")
+        #        layout.operator("animtools.mover_objeto",text="Move")
+        #        layout.operator("animblend.translate_wrapper",text="Move")
+
+        layout.prop(my_Properties , "LocY")
 
