@@ -33,33 +33,32 @@ bl_info = {
 from bpy.utils import register_class, unregister_class
 from .ui.panels import *
 from .operators.ops_createmarkers import *
+from .operators.ops_createcollections import *
 
 from bpy.props import (StringProperty , BoolProperty , IntProperty , FloatProperty , EnumProperty , PointerProperty , )
-
 
 from . import auto_load
 
 auto_load.init()
 
 class MyProperties(bpy.types.PropertyGroup):
-    nameMarker = StringProperty(
+    nameMarker : StringProperty(
         name="NameMarker" ,
         description="Name of Marker",
         default=""
     )
-    nameCamera = StringProperty(
+    nameCamera : StringProperty(
         name="NameCamera" ,
         description="Name of Camera",
         default=""
     )
 
-
-addon_keymap = []
-
-
+#custom_1: bpy.props.FloatProperty(name="My Float")
 classes = (
     LT_PT_CreateMarkers,
     LT_OT_CreateMarkers,
+    LT_OT_CreateCollections,
+    MyProperties
     #AB_OT_ValBreakdown_0,
 )
 
@@ -67,12 +66,10 @@ def register():
     for cls in classes:
         register_class(cls)
 
-    bpy.utils.register_class(MyProperties)
-    bpy.types.Scene.my_properties = bpy.props.CollectionProperty(type=MyProperties)
+    #bpy.utils.register_class(MyProperties)
+    bpy.types.Scene.my_properties = bpy.props.PointerProperty(type=MyProperties)
 
     #bpy.utils.register_module(__name__)
-
-
 #    register_all()
 
 def unregister():
@@ -81,8 +78,7 @@ def unregister():
 #    unregister_all()
     del bpy.types.Scene.my_properties
 
-    bpy.utils.unregister_class(MyProperties)
-
+    #bpy.utils.unregister_class(MyProperties)
 #    bpy.utils.unregister_module(__name__)
     #del bpy.types.Scene.my_properties
 

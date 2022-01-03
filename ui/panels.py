@@ -13,6 +13,9 @@ class LT_PT_CreateMarkers(Panel):
     bl_idname = "LT_PT_createmarkers"
     bl_options = {'DEFAULT_CLOSED'}
 
+
+    #text = bpy.props.StringProperty(name= "Name Marker:")
+
     def draw(self, context):
         layout = self.layout
         col = layout.column(align=True)
@@ -26,12 +29,18 @@ class LT_PT_CreateMarkers(Panel):
         toolsettings = context.tool_settings
         screen = context.screen
 
-#        myProperties = scene.my_properties
-
+        myproperties = scene.my_properties
         col = layout.column(align=True)
         row = layout.row(align=True)
-#        row.prop(myProperties, "NameMarker")
-        row.operator(LT_OT_CreateMarker.bl_idname, text="Create Marker", icon="IMPORT")
+        col.operator("lt.createcollections", text="Create Collection", icon="IMPORT")
+
+        
+        col = layout.column(align=True)
+        row = layout.row(align=True)
+        row.label(text="Name Markers")
+        row.prop(myproperties, "nameMarker", text="")
+        col = layout.column(align=True)
+        col.operator("lt.createmarker", text="Create Marker", icon="IMPORT")
 
         row = layout.box()
         row.label(text="TweenMachine Variable")
