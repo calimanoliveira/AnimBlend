@@ -1,5 +1,5 @@
 '''
-Copyright (C) 2018 Edgard Caliman
+Copyright (C) 2022 Edgard Caliman
 edgard_caliman@yahoo.com.br
 
 Created by Edgard Caliman and Team
@@ -19,11 +19,11 @@ Created by Edgard Caliman and Team
 '''
 
 bl_info = {
-    "name": "AnimBlend",
-    "description": "Tools of Animators",
-    "author": "Edgard Caliman and Ares Deveaux (AnimAide Graph Editor Tools)",
-    "version": (0, 0, 2),
-    "blender": (2, 91, 0),
+    "name": "LayouterTools",
+    "description": "Tools of Layouter",
+    "author": "Edgard Caliman",
+    "version": (0, 0, 1),
+    "blender": (3, 0, 0),
     "location": "View3D",
     "warning": "This addon is still in development.",
     "wiki_url": "",
@@ -32,16 +32,25 @@ bl_info = {
 #import bpy,bgl,blf
 from bpy.utils import register_class, unregister_class
 from .ui.panels import *
-from .operators.ops_tweenmachine import *
+from .operators.ops_createmarkers import *
 
 from bpy.props import (StringProperty , BoolProperty , IntProperty , FloatProperty , EnumProperty , PointerProperty , )
 
 
+from . import auto_load
+
+auto_load.init()
+
 class MyProperties(bpy.types.PropertyGroup):
-    LocY = BoolProperty(
-        name="LocY" ,
-        description="Property is Loc in Y",
-        default=True
+    nameMarker = StringProperty(
+        name="NameMarker" ,
+        description="Name of Marker",
+        default=""
+    )
+    nameCamera = StringProperty(
+        name="NameCamera" ,
+        description="Name of Camera",
+        default=""
     )
 
 
@@ -49,17 +58,9 @@ addon_keymap = []
 
 
 classes = (
-    AB_PT_TweenMachine,
-    AB_OT_ValBreakdown_0,
-    AB_OT_ValBreakdown_10,
-    AB_OT_ValBreakdown_33,
-    AB_OT_ValBreakdown_50,
-    AB_OT_ValBreakdown_66,
-    AB_OT_ValBreakdown_90,
-    AB_OT_ValBreakdown_100,
-    AB_PT_PlayBlast,
-    AB_PT_FrameRange,
-    AB_PT_animtools_GE
+    LT_PT_CreateMarkers,
+    LT_OT_CreateMarkers,
+    #AB_OT_ValBreakdown_0,
 )
 
 def register():
@@ -68,12 +69,6 @@ def register():
 
     bpy.utils.register_class(MyProperties)
     bpy.types.Scene.my_properties = bpy.props.CollectionProperty(type=MyProperties)
-
-    keymap_config = bpy.context.window_manager.keyconfigs.addon
-    if keymap_config:
-        km = keymap_config.keymaps.new(name="Graph Editor" , space_type="GRAPH_EDITOR")
-        kmi = km.keymap_items.new("animblend.translate_wrapper" , "G" , "PRESS")
-        addon_keymap.append((km , kmi))
 
     #bpy.utils.register_module(__name__)
 
@@ -88,12 +83,8 @@ def unregister():
 
     bpy.utils.unregister_class(MyProperties)
 
-    bpy.utils.unregister_module(__name__)
-    del bpy.types.Scene.my_properties
-
-    for km , kmi in addon_keymap:
-        km.keymap_items.remove(kmi)
-    addon_keymap.clear()
+#    bpy.utils.unregister_module(__name__)
+    #del bpy.types.Scene.my_properties
 
 """
 #from . import auto_load
